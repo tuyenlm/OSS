@@ -1,0 +1,397 @@
+﻿<UserControl x:Class="OutsourcingStaffSupport.MainForm"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                    xmlns:system="clr-namespace:System;assembly=mscorlib"
+                    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d" 
+            
+             Height="Auto" Width="Auto" Loaded="UserControl_Loaded">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <DataTemplate DataType="{x:Type system:DateTime}">
+                <StackPanel Margin="16">
+                    <TextBlock>England win the World Cup:</TextBlock>
+                    <TextBlock Margin="0 8 0 0" Text="{Binding }" />
+                    <TextBlock Margin="0 8 0 0" >You will never see that again.</TextBlock>
+                    <Button  Margin="0 8 0 0" IsDefault="True" Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" Style="{DynamicResource MaterialDesignFlatButton}">AWESOME</Button>
+                </StackPanel>
+            </DataTemplate>
+            <Style TargetType="TextBlock">
+                <Setter Property="VerticalAlignment" Value="Center"></Setter>
+                <Setter Property="Margin" Value="0 0 10 0"></Setter>
+                <Setter Property="TextAlignment" Value="Right"/>
+            </Style>
+            <Style TargetType="RowDefinition">
+                <Setter Property="Height" Value="43"></Setter>
+            </Style>
+
+            <DropShadowEffect x:Key="dropShadowEffect" BlurRadius="2" ShadowDepth ="1"/>
+            <Style TargetType="Border" x:Key="BorderOut">
+                <Setter Property="Margin" Value="0 0 20 0"></Setter>
+                <Setter Property="CornerRadius" Value="5"></Setter>
+                <Setter Property="Background" Value="#3A3A3A" />
+                <Setter Property="BorderBrush" Value="#444444"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="ClipToBounds" Value="True"/>
+                <Setter Property="Height" Value="40"/>
+
+            </Style>
+            <Style TargetType="Border" x:Key="BorderIn">
+                <!--<Setter Property="Effect" Value="{StaticResource dropShadowEffect}"/>-->
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="CornerRadius" Value="5"/>
+                <Setter Property="BorderBrush" Value="#2D2D2D"/>
+                <Setter Property="BorderThickness" Value="2 2 0 0"/>
+                <Setter Property="Margin" Value="-1"/>
+            </Style>
+
+            <Style TargetType="{x:Type TextBox}" x:Key="txtBox" BasedOn="{StaticResource MaterialDesignTextBox}">
+
+                <Setter Property="BorderThickness" Value="0" />
+                <Setter Property="Padding" Value="5 1"/>
+                <Setter Property="Margin" Value="3 0 0 0"/>
+            </Style>
+            <Style TargetType="{x:Type materialDesign:ColorZone}" x:Key="materialColorZone">
+                <Setter Property="CornerRadius" Value="5" />
+                <Setter Property="Padding" Value="10 5" />
+                <Setter Property="Margin" Value="10 10 10 0" />
+                <Setter Property="BorderThickness" Value="2" />
+                <Setter Property="BorderBrush" Value="#2A2F32" />
+                <Setter Property="Mode" Value="Dark" />
+                <Setter Property="materialDesign:ShadowAssist.ShadowDepth" Value="Depth1" />
+            </Style>
+            <Style x:Key="comboboxStyle" TargetType="{x:Type ComboBox}" BasedOn="{StaticResource MaterialDesignComboBox}">
+                <Setter Property="Height" Value="35"/>
+                <Setter Property="Padding" Value="10 10 10 0"/>
+                <Setter Property="Margin" Value="5 2 10 3"/>
+            </Style>
+            <Style x:Key="datePicker" TargetType="{x:Type DatePicker}" BasedOn="{StaticResource MaterialDesignFloatingHintDatePicker}">
+                <Setter Property="Height" Value="35"/>
+                <Setter Property="Margin" Value="5 2"/>
+                <Setter Property="Padding" Value="10 10 10 0"/>
+            </Style>
+            <Style x:Key="textArea" TargetType="{x:Type TextBox}" >
+                <Setter Property="Foreground" Value="White" />
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="Padding" Value="5"/>
+                <Setter Property="BorderThickness" Value="0"/>
+            </Style>
+
+            <Style x:Key="btnStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource MaterialDesignRaisedDarkButton}">
+                <Setter Property="Margin" Value="0 5 5 5"></Setter>
+                <Setter Property="BorderBrush" Value="Transparent"/>
+                <Setter Property="FontWeight" Value="Normal"/>
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <materialDesign:DialogHost Identifier="RootDialog">
+            <Grid x:Name="rootGrid">
+                <StackPanel >
+                    <materialDesign:ColorZone materialDesign:ShadowAssist.ShadowDepth="Depth1" CornerRadius="0 0 5 5" Padding="10 5" Margin="10 0" Mode="Dark">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                                <ColumnDefinition  Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Column="0" Grid.Row="0" Text="グループ企業識別コード"/>
+
+                            <Border Style="{StaticResource BorderOut}" Grid.Column="1" Grid.Row="0">
+                                <Border Style="{StaticResource BorderIn}">
+                                    <TextBox Style="{StaticResource txtBox}" x:Name="txt_KigyouShikibetsuKoudo" IsEnabled="False"/>
+                                </Border>
+                            </Border>
+                            <TextBlock Grid.Column="0" Grid.Row="1" Text="物件注文番号" />
+                            <Border Style="{StaticResource BorderOut}" Grid.Column="1" Grid.Row="1">
+                                <Border Style="{StaticResource BorderIn}">
+                                    <TextBox Style="{StaticResource txtBox}" x:Name="txt_BukkenChuumon" InputMethod.PreferredImeState="Off"/>
+                                </Border>
+                            </Border>
+                            <TextBlock Grid.Column="0" Grid.Row="2" Text="明細再委託フラグ"/>
+                            <Border Style="{StaticResource BorderOut}" Grid.Column="1" Grid.Row="2">
+                                <Border Style="{StaticResource BorderIn}">
+                                    <ComboBox Style="{StaticResource comboboxStyle}" x:Name="cbb_SaiItaku" SelectionChanged="cbb_saiItaku_SelectionChanged">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}"></TextBlock>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                </Border>
+                            </Border>
+                            <TextBlock Grid.Column="0" Grid.Row="3" Text="プロジェクト責任者部署名"/>
+                            <Border Style="{StaticResource BorderOut}" Grid.Column="1" Grid.Row="3">
+                                <Border Style="{StaticResource BorderIn}">
+                                    <ComboBox Style="{StaticResource comboboxStyle}"  x:Name="cbb_SekininshaBu" SelectedIndex="0">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}"></TextBlock>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                </Border>
+                            </Border>
+                            <TextBlock Grid.Column="2" Grid.Row="0" Text="グループ企業識別名"/>
+                            <Border Style="{StaticResource BorderOut}" Grid.Column="3" Grid.Row="0">
+                                <Border Style="{StaticResource BorderIn}">
+                                    <ComboBox Style="{StaticResource comboboxStyle}" x:Name="cbb_KigyouShikibetsuName"   SelectionChanged="cbb_KigyouShikibetsuName_SelectionChanged">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}"></TextBlock>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                </Border>
+                            </Border>
+
+
+                            <TextBlock Grid.Column="2" Grid.Row="1" Text="物件版数"/>
+
+                            <Border Style="{StaticResource BorderOut}" Grid.Column="3" Grid.Row="1">
+                                <Border Style="{StaticResource BorderIn}" Grid.Column="1" Grid.Row="1">
+                                    <TextBox Style="{StaticResource txtBox}" x:Name="txt_BukkenBanu" PreviewTextInput="txt_BukkenBanu_PreviewTextInput" Text="0"/>
+                                </Border>
+                            </Border>
+
+                            <TextBlock Grid.Column="2" Grid.Row="2" Text="再委託先会社名"/>
+                            <Border Style="{StaticResource BorderOut}" Grid.Column="3" Grid.Row="2">
+                                <Border Style="{StaticResource BorderIn}">
+                                    <TextBox Style="{StaticResource txtBox}" x:Name="txt_SaiItakuSaki"/>
+                                </Border>
+                            </Border>
+                            <TextBlock Grid.Column="2" Grid.Row="3" Text="プロジェクト責任者名"/>
+                            <Border Style="{StaticResource BorderOut}" Grid.Column="3" Grid.Row="3">
+                                <Border Style="{StaticResource BorderIn}">
+                                    <ComboBox Style="{StaticResource comboboxStyle}" x:Name="cbb_SekininSha" SelectedIndex="0">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}"></TextBlock>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                </Border>
+                            </Border>
+                            <TextBlock Grid.Column="2" Grid.Row="4" Text="プロジェクト責任者電話"/>
+                            <Border Style="{StaticResource BorderOut}" Grid.Column="3" Grid.Row="4">
+                                <Border Style="{StaticResource BorderIn}">
+                                    <ComboBox Style="{StaticResource comboboxStyle}" x:Name="cbb_SekininShaDenWa" SelectedIndex="0" >
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}"></TextBlock>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                </Border>
+                            </Border>
+                        </Grid>
+                    </materialDesign:ColorZone>
+                    <materialDesign:ColorZone Style="{StaticResource materialColorZone}">
+                        <StackPanel Orientation="Vertical">
+                            <Grid>
+                                <Grid.Resources>
+                                    <Style x:Key="ItemContainerStyle" TargetType="{x:Type ListBoxItem}">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                                    <Border x:Name="myBorder"
+                                                    Padding="0" Margin="0 3 0 0" SnapsToDevicePixels="true"  Style="{DynamicResource borderContent}">
+                                                        <ContentPresenter />
+                                                    </Border>
+                                                    <ControlTemplate.Resources>
+                                                        <Style x:Key="borderContent" TargetType="Border">
+                                                            <Setter Property="BorderThickness" Value="5 0 3 0"/>
+                                                            <Setter Property="BorderBrush" Value="Transparent"/>
+                                                        </Style>
+                                                    </ControlTemplate.Resources>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsSelected" Value="true">
+                                                            <Setter TargetName="myBorder" Property="BorderBrush" Value="Red"/>
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                    <Style x:Key="ListBoxStyle" TargetType="{x:Type ListBox}">
+                                        <Setter Property="Background" Value="Transparent"/>
+                                        <Setter Property="Foreground" Value="White"/>
+                                        <Setter Property="BorderBrush" Value="#333"/>
+                                    </Style>
+                                    <DataTemplate x:Key="ListBoxItemDataTemplate">
+                                        <TextBlock Text="{Binding}" />
+                                    </DataTemplate>
+                                </Grid.Resources>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                                    <ColumnDefinition  Width="*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition Height="120"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Column="0" Grid.Row="0" Text="管理者区分"/>
+                                <Border Style="{StaticResource BorderOut}"  Grid.Column="1" Grid.Row="0">
+                                    <Border Style="{StaticResource BorderIn}">
+                                        <ComboBox Style="{StaticResource comboboxStyle}" x:Name="cbb_KanrishaKubun" SelectedIndex="0">
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding}"></TextBlock>
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
+                                    </Border>
+                                </Border>
+                                <TextBlock Grid.Column="0" Grid.Row="1" Text="従事開始日"/>
+                                <Border Style="{StaticResource BorderOut}" Grid.Column="1" Grid.Row="1">
+                                    <Border Style="{StaticResource BorderIn}">
+                                        <DatePicker x:Name="dp_JuujiKaishi" SelectedDate="{x:Static sys:DateTime.Now}" Style="{StaticResource datePicker}" />
+                                    </Border>
+                                </Border>
+                                <TextBlock Grid.Column="0" Grid.Row="2" Text="誓約書取得日"/>
+                                <Border Style="{StaticResource BorderOut}" Grid.Column="1" Grid.Row="2" >
+                                    <Border Style="{StaticResource BorderIn}">
+                                        <DatePicker Style="{StaticResource datePicker}" x:Name="dp_SeiyakuShoShutoku" SelectedDate="{x:Static sys:DateTime.Now}"/>
+                                    </Border>
+                                </Border>
+                                <TextBlock Grid.Column="0" Grid.Row="3" Text="返却・廃棄・消去確認日"/>
+                                <Border Style="{StaticResource BorderOut}" Grid.Column="1" Grid.Row="3">
+                                    <Border Style="{StaticResource BorderIn}">
+                                        <DatePicker x:Name="dp_ShoukyoKakunin" Style="{StaticResource datePicker}" />
+                                    </Border>
+                                </Border>
+                                <TextBlock Grid.Column="2" Grid.Row="0" Text="従事者氏名"/>
+                                <Border Style="{StaticResource BorderOut}" Grid.Column="3" Grid.Row="0">
+                                    <Border Style="{StaticResource BorderIn}">
+                                        <ComboBox Style="{StaticResource comboboxStyle}" x:Name="cbb_JuujiSha">
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding}"></TextBlock>
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
+                                    </Border>
+                                </Border>
+                                <TextBlock Grid.Column="2" Grid.Row="1" Text="従事終了日"/>
+                                <Border Style="{StaticResource BorderOut}" Grid.Column="3" Grid.Row="1" >
+                                    <Border Style="{StaticResource BorderIn}">
+                                        <DatePicker x:Name="dp_JuujiShuuryou" SelectedDate="{x:Static sys:DateTime.Now}" Style="{StaticResource datePicker}" />
+                                    </Border>
+                                </Border>
+                                <TextBlock Grid.Column="2" Grid.Row="2" Text="情報セキュリティ教育受講日"/>
+                                <Border Style="{StaticResource BorderOut}" Grid.Column="3" Grid.Row="2" >
+                                    <Border Style="{StaticResource BorderIn}">
+                                        <DatePicker x:Name="dp_JouhouSekyuriti" SelectedDate="{x:Static sys:DateTime.Now}" Style="{StaticResource datePicker}" />
+                                    </Border>
+                                </Border>
+                                <TextBlock Grid.Column="2" Grid.Row="3" Text="明細更新日"/>
+                                <Border Style="{StaticResource BorderOut}" Grid.Column="3" Grid.Row="3" >
+                                    <Border Style="{StaticResource BorderIn}">
+                                        <DatePicker x:Name="dp_MeisaiKoushin" SelectedDate="{x:Static sys:DateTime.Now}" Style="{StaticResource datePicker}" />
+                                    </Border>
+                                </Border>
+                                <TextBlock Grid.Column="0" Grid.Row="4" Text="備考"/>
+                                <Border Height="100" Style="{StaticResource BorderOut}" Grid.Column="1" Grid.Row="4">
+                                    <Border Style="{StaticResource BorderIn}">
+                                        <TextBox x:Name="txt_Bikou" AcceptsReturn="True"
+	                            Style="{StaticResource textArea}" TextWrapping="Wrap" />
+                                    </Border>
+                                </Border>
+                                <StackPanel Grid.Column="2" Grid.Row="4">
+                                    <TextBlock Padding="0 15 0 0" Text="参加氏名"/>
+                                    <CheckBox Margin="0 0 10 0" FlowDirection="RightToLeft" HorizontalAlignment="Right" x:Name="ckb_MatometeSanka" Click="ckb_MatometeSanka_Click" Content="まとめて参加"></CheckBox>
+                                </StackPanel>
+                                <Border Height="Auto" Margin="0 10 20 0" Style="{StaticResource BorderOut}" Grid.Column="3" Grid.Row="4">
+                                    <Border Style="{StaticResource BorderIn}">
+                                        <ListBox x:Name="lb_SankaMei" SelectionMode="Multiple"
+                                    Style="{StaticResource ListBoxStyle}" ItemContainerStyle="{StaticResource ItemContainerStyle}" ItemTemplate="{StaticResource ListBoxItemDataTemplate}" >
+                                        </ListBox>
+                                    </Border>
+                                </Border>
+                            </Grid>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Style="{StaticResource btnStyle}" x:Name="btnTsuika" Click="btnTsuika_Click">追加</Button>
+                                <Button Style="{StaticResource btnStyle}" x:Name="btnShuusei" Click="btnShuusei_Click" Background="Tomato">修正</Button>
+                                <Button Style="{StaticResource btnStyle}" x:Name="btnReset" Click="btnReset_Click" Background="SeaGreen">入力項目初期化</Button>
+                                <Button Style="{StaticResource btnStyle}" x:Name="btnCSVExport" Click="btnCSVExport_Click" Background="SteelBlue">CSV出力</Button>
+                                <Button Style="{StaticResource btnStyle}" x:Name="btnCSVImport" Click="btnCSVImport_Click" Background="Brown" Content="CSV取り込み"/>
+                                <TextBlock Margin="50 0 0 0" Text="CSV出力経路(コピー可能): "/>
+                                <TextBox VerticalAlignment="Center" Background="Transparent" BorderThickness="0" IsReadOnly="True" TextWrapping="Wrap"  x:Name="lblTextPath" />
+                            </StackPanel>
+                        </StackPanel>
+                    </materialDesign:ColorZone>
+                    <materialDesign:ColorZone Style="{StaticResource materialColorZone}">
+                        <Grid MinWidth="600" Height="Auto" Margin="-10 0" >
+                            <DataGrid ScrollViewer.CanContentScroll="True" MaxHeight="300"
+                                  ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                  ScrollViewer.HorizontalScrollBarVisibility="Auto" MouseLeftButtonUp="dataGridResult_MouseLeftButtonUp"
+                                  CanUserAddRows="False" IsReadOnly="True"
+                                  x:Name="dataGridResult" FrozenColumnCount="1"  Grid.Column="0"
+                                  materialDesign:DataGridAssist.CellPadding="4 0 0 2"
+                                  materialDesign:DataGridAssist.ColumnHeaderPadding="4 2 2 2"
+                                  ItemsSource="{Binding}" AutoGenerateColumns="False">
+                                <DataGrid.Resources>
+
+                                    <Style x:Key="bgHeader" TargetType="{x:Type DataGridColumnHeader}">
+                                        <Setter Property="Background" Value="#999" />
+                                    </Style>
+                                    <Style x:Key="verticalCenter" TargetType="{x:Type TextBlock}">
+                                        <Setter Property="HorizontalAlignment" Value="Center" />
+                                    </Style>
+
+                                </DataGrid.Resources>
+                                <DataGrid.Columns >
+                                    <DataGridTemplateColumn Header="削除" >
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button x:Name="btnDelete" Click="btnDelete_Click" Padding="-10" Margin="0 1 3 -2" Height="25" Width="30" Content="{materialDesign:PackIcon DeleteForever}" ToolTip="削除" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTextColumn Header="グループ企業識別コード" Binding="{Binding KigyouShikibetsuKoudo}" ElementStyle="{StaticResource verticalCenter }">
+                                    </DataGridTextColumn>
+                                    <DataGridTextColumn Header="グループ企業識別名" Binding="{Binding KigyouShikibetsuName}" ElementStyle="{StaticResource verticalCenter}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="物件注文番号" Binding="{Binding BukkenChuumon}" ElementStyle="{StaticResource verticalCenter}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="物件版数" Binding="{Binding BukkenBanu}" ElementStyle="{StaticResource verticalCenter}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="明細再委託フラグ" Binding="{Binding SaiItaku}" ElementStyle="{StaticResource verticalCenter}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="再委託先会社名" Binding="{Binding SaiItakuSaki}" ElementStyle="{StaticResource verticalCenter}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="管理者区分" Binding="{Binding KanrishaKubun}" ElementStyle="{StaticResource verticalCenter}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="従事者氏名" Binding="{Binding JuujiSha}" ElementStyle="{StaticResource verticalCenter}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="従事開始日" Binding="{Binding JuujiKaishi}" ElementStyle="{StaticResource verticalCenter}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="従事終了日" Binding="{Binding JuujiShuuryou}" ElementStyle="{StaticResource verticalCenter}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="誓約書取得日" Binding="{Binding SeiyakuShoShutoku}" ElementStyle="{StaticResource verticalCenter}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="セキュリティ教育受講日" Binding="{Binding JouhouSekyuriti}" ElementStyle="{StaticResource verticalCenter}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="返却・廃棄・消去確認日" Binding="{Binding ShoukyoKakunin}" ElementStyle="{StaticResource verticalCenter}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="明細更新日" Binding="{Binding MeisaiKoushin}" ElementStyle="{StaticResource verticalCenter}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="備考" Binding="{Binding Bikou}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="プロジェクト責任者部署名" Binding="{Binding SekininshaBu}" ElementStyle="{StaticResource verticalCenter}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="プロジェクト責任者名" Binding="{Binding SekininSha}" ElementStyle="{StaticResource verticalCenter}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="プロジェクト責任者電話" Binding="{Binding SekininShaDenWa}" ElementStyle="{StaticResource verticalCenter}"></DataGridTextColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Grid>
+
+                    </materialDesign:ColorZone>
+                </StackPanel>
+            </Grid>
+        </materialDesign:DialogHost>
+    </ScrollViewer>
+</UserControl>
